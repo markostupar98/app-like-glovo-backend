@@ -18,6 +18,8 @@ model User {
   email      String    @unique
   password   String
   fullName   String
+  username   String
+  address    String
   role       String
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
