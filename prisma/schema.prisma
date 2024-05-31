@@ -21,6 +21,8 @@ model User {
   username   String
   address    String
   role       String
+  latitude   Float
+  longitude  Float
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   orders     Order[]   // Relation to orders
@@ -42,7 +44,7 @@ model Category {
   id    Int    @id @default(autoincrement())
   name  String
   image String // URL to image
-  dishes Dish[] // Relation to dishes
+    restaurants Restaurants[]
 }
 
 model Dish {
@@ -51,19 +53,22 @@ model Dish {
   price        Float
   image        String    // URL to image
   restaurantId Int
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant   Restaurants @relation(fields: [restaurantId], references: [id])
   categoryId   Int
-  category     Category  @relation(fields: [categoryId], references: [id])
   orderItems   OrderItem[]
 }
 
-model Restaurant {
+model Restaurants {
   id        Int       @id @default(autoincrement())
   name      String
   address   String
   image     String // URL to image
   dishes    Dish[]  // Relation to dishes
   orders    Order[] // Relation to orders
+  categoryId Int       // Foreign key for Category
+  category   Category  @relation(fields: [categoryId], references: [id])
+  latitude   Float
+  longitude  Float
 }
 
 model OrderItem {
@@ -83,7 +88,7 @@ model Order {
   userId          Int
   user            User      @relation(fields: [userId], references: [id])
   restaurantId    Int
-  restaurant      Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant      Restaurants @relation(fields: [restaurantId], references: [id])
   driverId        Int?
   driver          Driver?   @relation(fields: [driverId], references: [id])
   deliveryAddress String
