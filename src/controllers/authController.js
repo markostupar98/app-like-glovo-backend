@@ -16,8 +16,10 @@ exports.signin = async (req, res) => {
   try {
     const user = await authService.validateUser(req.body.email, req.body.password);
     if (user) {
+      const token = authService.generateToken(user);
       res.json({
         message: "Authentication successful",
+        token: token,
         userId: user.id
       });
     } else {
