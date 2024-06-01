@@ -21,8 +21,8 @@ model User {
   username   String
   address    String
   role       String
-  latitude   Float
-  longitude  Float
+  latitude   Float?
+  longitude  Float?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
   orders     Order[]   // Relation to orders
@@ -67,8 +67,8 @@ model Restaurants {
   orders    Order[] // Relation to orders
   categoryId Int       // Foreign key for Category
   category   Category  @relation(fields: [categoryId], references: [id])
-  latitude   Float
-  longitude  Float
+  latitude   Float?
+  longitude  Float?
 }
 
 model OrderItem {

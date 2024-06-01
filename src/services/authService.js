@@ -23,6 +23,8 @@ exports.createUser = async ({ email, password, fullName, username, address }) =>
       username,
       role:'user',
       address,
+      latitude:null,
+      longitude:null
     },
   });
 };

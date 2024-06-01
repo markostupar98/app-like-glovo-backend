@@ -8,3 +8,15 @@ exports.fetchRestaurants = async () => {
     }
   });
 };
+
+// Details
+
+exports.fetchRestaurantDetails = async (restaurantId) => {
+  return await prisma.restaurants.findUnique({
+    where: { id: parseInt(restaurantId) },
+    include: {
+      category: true,
+      dishes: true
+    }
+  });
+};
