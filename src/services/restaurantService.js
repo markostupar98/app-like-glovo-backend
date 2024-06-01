@@ -1,22 +1,36 @@
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 exports.fetchRestaurants = async () => {
   return await prisma.restaurants.findMany({
     include: {
-      category: true
-    }
+      category: true,
+    },
   });
 };
 
-// Details
+// Details without coords
+// services/restaurantService.js
 
-exports.fetchRestaurantDetails = async (restaurantId) => {
+exports.getRestaurantDetailsBasic = async (restaurantId) => {
   return await prisma.restaurants.findUnique({
     where: { id: parseInt(restaurantId) },
     include: {
       category: true,
-      dishes: true
-    }
+      dishes: true,
+    },
+  });
+};
+
+exports.fetchRestaurantDetailsComplete = async (restaurantId) => {
+  return await prisma.restaurants.findUnique({
+    where: { id: parseInt(restaurantId) },
+    include: {
+      category: true,
+      dishes: true,
+      latitude: true,
+      longitude: true,
+      address: true,
+    },
   });
 };

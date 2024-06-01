@@ -9,9 +9,10 @@ exports.getAllRestaurants = async (req, res) => {
   }
 };
 
-exports.getRestaurantDetails = async (req, res) => {
+// Basic
+exports.getRestaurantDetailsBasic = async (req, res) => {
   try {
-    const restaurant = await restaurantService.fetchRestaurantDetails(req.params.id);
+    const restaurant = await restaurantService.getRestaurantDetailsBasic(req.params.id);
     if (!restaurant) {
       return res.status(404).json({ message: 'Restaurant not found' });
     }
@@ -20,3 +21,17 @@ exports.getRestaurantDetails = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+// With coords
+exports.getRestaurantDetailsComplete = async (req, res) => {
+  try {
+    const restaurant = await restaurantService.fetchRestaurantDetailsComplete(req.params.id);
+    if (!restaurant) {
+      return res.status(404).json({ message: 'Restaurant not found' });
+    }
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+

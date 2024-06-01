@@ -1,16 +1,15 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-exports.createUser = async (userData) => {
-  const { email, fullName, password, username, address } = userData;
-  // Remember to hash the password before saving
-  return await prisma.user.create({
-    data: {
-      email,
-      fullName,
-      password,
-      username,
-      address,
-    },
+exports.fetchUserProfile = async (userId) => {
+  return await prisma.user.findUnique({
+    where: { id: parseInt(userId) },
+    select: {
+      id: true,
+      fullName: true,
+      address: true,
+      latitude: true,
+      longitude: true
+    }
   });
-};
+}

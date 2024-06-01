@@ -1,10 +1,17 @@
 const userService = require('../services/userService');
 
-exports.createUser = async (req, res) => {
+// Get profile
+
+exports.getUserProfile = async (req, res) => {
   try {
-    const user = await userService.createUser(req.body);
-    res.status(201).json(user);
+    const profile = await userService.fetchUserProfile(req.params.userId);
+    if (!profile) {
+      console.log(`User not found: ${req.params.userId}`);
+      return res.status(404).send('User not found');
+    }
+    res.json(profile);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.log(`Error fetching user profile: ${error}`);
+    res.status(500).send(error.message);
   }
 };
