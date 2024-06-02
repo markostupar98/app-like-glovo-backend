@@ -36,3 +36,14 @@ exports.getOrders = async (req, res) => {
       res.status(500).json({ message: error.message });
     }
   };
+
+  // Assign driver to order
+  exports.assignDriver = async (req, res) => {
+    try {
+      const { orderId, driverId } = req.body;
+      const updatedOrder = await orderService.assignDriverToOrder(orderId, driverId);
+      res.json(updatedOrder);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };

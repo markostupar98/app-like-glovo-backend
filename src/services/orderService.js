@@ -66,3 +66,11 @@ exports.fetchOrders = async () => {
       },
     });
   };
+
+  // Assign driver to order
+  exports.assignDriverToOrder = async (orderId, driverId) => {
+    return await prisma.order.update({
+      where: { id: parseInt(orderId) },
+      data: { driverId: parseInt(driverId) },
+    });
+  };
