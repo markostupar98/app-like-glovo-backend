@@ -23,14 +23,23 @@ exports.getRestaurantDetailsBasic = async (restaurantId) => {
 };
 
 exports.fetchRestaurantDetailsComplete = async (restaurantId) => {
-  return await prisma.restaurants.findUnique({
-    where: { id: parseInt(restaurantId) },
-    include: {
-      category: true,
-      dishes: true,
-      latitude: true,
-      longitude: true,
-      address: true,
-    },
-  });
+  try {
+    console.log(`Fetching details for restaurant ID: ${restaurantId}`);
+    const restaurant = await prisma.restaurants.findUnique({
+      where: { id: parseInt(restaurantId) },
+      include: {
+        category: true,
+        dishes: true,
+      },
+    });
+
+    if (!restaurant) {
+      throw new Error('Restaurant not found');
+    }
+    
+    return restaurant;
+  } catch (error) {
+    console.error("Error fetching complete restaurant details:", error);
+    throw error;
+  }
 };

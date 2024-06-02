@@ -23,15 +23,17 @@ exports.getRestaurantDetailsBasic = async (req, res) => {
 };
 
 // With coords
+
 exports.getRestaurantDetailsComplete = async (req, res) => {
   try {
     const restaurant = await restaurantService.fetchRestaurantDetailsComplete(req.params.id);
     if (!restaurant) {
+      console.log(`Restaurant not found for ID: ${req.params.id}`);
       return res.status(404).json({ message: 'Restaurant not found' });
     }
     res.json(restaurant);
   } catch (error) {
+    console.error("Error fetching complete restaurant details:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
-
