@@ -13,6 +13,7 @@ exports.generateToken = (user) => {
   );
 };
 
+// Create user
 exports.createUser = async ({ email, password, fullName, username, address }) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   return prisma.user.create({
@@ -29,6 +30,7 @@ exports.createUser = async ({ email, password, fullName, username, address }) =>
   });
 };
 
+// Validate user
 exports.validateUser = async (email, password) => {
   const user = await prisma.user.findUnique({
     where: { email },
@@ -38,4 +40,30 @@ exports.validateUser = async (email, password) => {
 
   const isMatch = await bcrypt.compare(password, user.password);
   return isMatch ? user : null;
+};
+
+// Create driver
+exports.createDriver = async ({ email, password, fullName, phone, vehicleType }) => {
+  const hashedPassword = await bcrypt.hash(password, 10);
+  return prisma.driver.create({
+    data: {
+      email,
+      password: hashedPassword,
+      fullName,
+      phone,
+      vehicleType,
+    },
+  });
+};
+
+// Driver validation
+exports.validateDriver = async (email, password) => {
+  const driver = await prisma.driver.findUnique({
+    where: { email },
+  });
+
+  if (!driver) return null;
+
+  const isMatch = await bcrypt.compare(password, driver.password);
+  return isMatch ? driver : null;
 };

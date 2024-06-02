@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+// Fetching user profile
 exports.fetchUserProfile = async (userId) => {
   return await prisma.user.findUnique({
     where: { id: parseInt(userId) },
@@ -13,3 +14,11 @@ exports.fetchUserProfile = async (userId) => {
     }
   });
 }
+
+// Updating user profile
+exports.updateUserProfile = async (userId, data) => {
+  return await prisma.user.update({
+    where: { id: parseInt(userId) },
+    data
+  });
+};
