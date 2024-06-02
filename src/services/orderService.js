@@ -1,6 +1,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
+// Create order
 exports.createOrder = async (userId, restaurantId, deliveryAddress, cartItems, total) => {
   try {
     const order = await prisma.order.create({
@@ -26,4 +27,42 @@ exports.createOrder = async (userId, restaurantId, deliveryAddress, cartItems, t
     throw error;
   }
 };
-    
+
+// Fetch order details
+
+exports.fetchOrderDetails = async (orderId) => {
+  return await prisma.order.findUnique({
+    where: { id: parseInt(orderId) },
+    include: {
+      restaurant: {
+        select: {
+          name: true,
+        },
+      },
+      user: {
+        select: {
+          address: true,
+        },
+      },
+    },
+  });
+};
+
+// Fetch orders
+exports.fetchOrders = async () => {
+    return await prisma.order.findMany({
+      include: {
+        restaurant: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+        user: {
+          select: {
+            address: true,
+          },
+        },
+      },
+    });
+  };
