@@ -25,7 +25,8 @@ model User {
   longitude  Float?
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  orders     Order[]   // Relation to orders
+  orders     Order[]  
+  notificationToken String?
 }
 
 model Driver {
@@ -37,7 +38,8 @@ model Driver {
   phone       String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  orders      Order[]   // Relation to orders
+  orders      Order[]   
+  notificationToken String?
 }
 
 model Category {
