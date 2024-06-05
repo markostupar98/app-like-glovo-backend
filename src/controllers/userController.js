@@ -26,28 +26,3 @@ exports.updateUserProfile = async (req, res) => {
   }
 };
 
-exports.saveNotificationToken = async (req, res) => {
-  const { token, userId } = req.body;
-  try {
-    await prisma.user.update({
-      where: { id: userId },
-      data: { notificationToken: token },
-    });
-    res.status(200).json({ message: 'Token saved successfully' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-exports.saveDriverNotificationToken = async (req, res) => {
-  const { token, driverId } = req.body;
-  try {
-    await prisma.driver.update({
-      where: { id: driverId },
-      data: { notificationToken: token },
-    });
-    res.status(200).json({ message: 'Token saved successfully' });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
